@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"unsafemango.com/price-calculator/cmdmanager"
 	"unsafemango.com/price-calculator/prices"
 )
@@ -14,6 +16,11 @@ func main() {
 		cmdm := cmdmanager.New()
 
 		priceJob := prices.NewTaxIncludedPriceJob(cmdm, taxRate)
-		priceJob.Process()
+		err := priceJob.Process()
+
+		if err != nil {
+			fmt.Println("Could not process job!")
+			fmt.Println(err)
+		}
 	}
 }
