@@ -1,11 +1,10 @@
 package prices
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 
 	"unsafemango.com/price-calculator/conversion"
+	"unsafemango.com/price-calculator/filemanager"
 )
 
 type TaxIncludedPriceJob struct {
@@ -16,25 +15,9 @@ type TaxIncludedPriceJob struct {
 
 // receiver method to read data from file
 func (job *TaxIncludedPriceJob) LoadData() {
-	file, err := os.Open("prices.txt")
-
+	lines, err := filemanager.ReadLines("prices.txt")
 	if err != nil {
-		fmt.Println("could not open file!!")
 		fmt.Println(err)
-		return
-	}
-	// bufio is used for reading line by line on a file
-	scanner := bufio.NewScanner(file)
-
-	var lines []string
-	for scanner.Scan() { // keeps scanning till there is no more content to scan
-		lines = append(lines, scanner.Text())
-	}
-	err = scanner.Err() // find out if an error occured earlier
-	if err != nil {
-		fmt.Println("reading the file content failed!!")
-		fmt.Println(err)
-		file.Close() // close the file
 		return
 	}
 
@@ -42,13 +25,10 @@ func (job *TaxIncludedPriceJob) LoadData() {
 
 	if err != nil {
 		fmt.Println(err)
-		file.Close()
 		return
 	}
 
 	job.InputPrices = prices
-	file.Close()
-
 }
 
 // adding a receiver method
