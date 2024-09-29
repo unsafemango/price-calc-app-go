@@ -4,14 +4,14 @@ import (
 	"fmt"
 
 	"unsafemango.com/price-calculator/conversion"
-	"unsafemango.com/price-calculator/filemanager"
+	"unsafemango.com/price-calculator/iomanager"
 )
 
 type TaxIncludedPriceJob struct {
-	IOManager         filemanager.FileManager `json:"-"` // exclude the field using struct tags
-	TaxRate           float64                 `json:"tax_rate"`
-	InputPrices       []float64               `json:"input_prices"`
-	TaxIncludedPrices map[string]string       `json:"tax_included_prices"`
+	IOManager         iomanager.IOManager `json:"-"` // exclude the field using struct tags
+	TaxRate           float64             `json:"tax_rate"`
+	InputPrices       []float64           `json:"input_prices"`
+	TaxIncludedPrices map[string]string   `json:"tax_included_prices"`
 }
 
 // receiver method to read data from file
@@ -48,7 +48,7 @@ func (job *TaxIncludedPriceJob) Process() {
 }
 
 // constructor
-func NewTaxIncludedPriceJob(fm filemanager.FileManager, taxRate float64) *TaxIncludedPriceJob {
+func NewTaxIncludedPriceJob(fm iomanager.IOManager, taxRate float64) *TaxIncludedPriceJob {
 	return &TaxIncludedPriceJob{
 		IOManager:   fm,
 		InputPrices: []float64{10, 20, 30},
